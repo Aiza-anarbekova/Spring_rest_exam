@@ -26,7 +26,6 @@ public class InstructorController {
         this.instructorService = instructorRepository;
     }
 
-
     @PostMapping
     public InstructorResponse saveIns(@RequestBody InstructorRequest request){
         return instructorService.save(request);
@@ -38,12 +37,12 @@ public class InstructorController {
     }
 
     @GetMapping("/all/{id}")
-    public List<Instructor> findInstructorByCompanyId(@PathVariable Long id){
+    public List<InstructorResponse> findInstructorByCompanyId(@PathVariable Long id){
         return instructorService.getInstructorsByCompanyId(id);
     }
 
     @GetMapping("/find/{id}")
-    public List<Instructor> findByCourseId(@PathVariable Long id){
+    public List<InstructorResponse> findByCourseId(@PathVariable Long id){
         return instructorService.getInstructorByCourseId(id);
     }
 
@@ -64,6 +63,7 @@ public class InstructorController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
     public InstructorResponseView pagination(@RequestParam(name = "text",required = false) String text,
                                              @RequestParam int page,
                                              @RequestParam int size){

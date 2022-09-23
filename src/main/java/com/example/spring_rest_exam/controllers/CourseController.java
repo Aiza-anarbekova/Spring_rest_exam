@@ -33,12 +33,13 @@ public class CourseController {
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('INSTRUCTOR','ADMIN')")
     public CourseResponse getById(@PathVariable Long id){
         return courseService.getById(id);
     }
 
     @GetMapping("all/{id}")
-    public List<Course> getCoursesByCompanyId(@PathVariable Long id){
+    public List<CourseResponse> getCoursesByCompanyId(@PathVariable Long id){
         return courseService.getCourseByCompanyId(id);
     }
 
@@ -54,6 +55,7 @@ public class CourseController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
     public CourseResponseView pagination(@RequestParam(name = "text",required = false) String text,
                                          @RequestParam int page,
                                          @RequestParam int size) {

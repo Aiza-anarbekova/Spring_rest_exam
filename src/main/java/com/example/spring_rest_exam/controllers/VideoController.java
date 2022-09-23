@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/video")
-@PreAuthorize("hasAuthority('ADMIN')")
+@PreAuthorize("hasAuthority('INSTRUCTOR')")
 public class VideoController {
     private final VideoService videoService;
     @Autowired
@@ -45,6 +45,7 @@ public class VideoController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('STUDENT','INSTRUCTOR')")
     public VideoResponseView pagination(@RequestParam(name = "text",required = false) String text,
                                         @RequestParam int page,
                                         @RequestParam int size){

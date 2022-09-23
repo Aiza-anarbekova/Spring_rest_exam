@@ -14,11 +14,15 @@ import java.util.Optional;
 public interface InstructorRepository extends JpaRepository<Instructor,Long> {
     @Query("select i from Instructor  i where i.company.id=:id")
     List<Instructor> findInstructorsByCompanyId(Long id);
-
-//    Optional<Instructor> findInstructorsByCourseId(Long id);
+@Query("select i from Instructor i join i.courses c where i.id=:id")
+    List<Instructor> findInstructorsByCoursesId(Long id);
     Instructor findInstructorById(Long id);
 
     @Query("select  i from  Instructor i where upper(i.firstName) like concat('%',:text,'%')")
     List<Instructor > searchByEmail(String text, Pageable pageable);
+
+    @Query("select case when count(a)>0 then true else false end" +
+            " from User a where a.email =?1")
+    boolean existsByUserEmail(String email);
     }
 

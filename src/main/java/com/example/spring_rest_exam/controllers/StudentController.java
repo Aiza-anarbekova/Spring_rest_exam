@@ -13,26 +13,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("api/student")
 @PreAuthorize("hasAuthority('ADMIN')")
 public class StudentController {
-    private final InstructorService instructorRepository;
+
     private final StudentService studentRepository;
-    private final LessonService lessonRepository;
-    private final CourseService courseRepository;
-    private final TaskService taskRepositoryImpl;
 
     @Autowired
-    public StudentController(InstructorService instructorRepository, StudentService studentRepository, LessonService lessonRepository, CourseService courseRepository, TaskService taskRepositoryImpl) {
-        this.instructorRepository = instructorRepository;
+    public StudentController(StudentService studentRepository) {
         this.studentRepository = studentRepository;
-        this.lessonRepository = lessonRepository;
-        this.courseRepository = courseRepository;
-        this.taskRepositoryImpl = taskRepositoryImpl;
     }
-
 
     @PostMapping
     public StudentResponse  saveStud(@RequestBody StudentRequest request){
@@ -44,8 +39,15 @@ public class StudentController {
         return studentRepository.getById(id);
     }
 
+    @GetMapping("/all")
+    @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
+    public List<StudentResponse> getAll(){
+        return studentRepository.getAll();
+    }
+
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
     public StudentResponse updateStudent(@PathVariable Long id , @RequestBody StudentRequest request){
         return studentRepository.updateById(id,request);
     }
@@ -61,6 +63,7 @@ public class StudentController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN','INSTRUCTOR')")
     public StudentResponseView pagination(@RequestParam(name = "text",required = false) String text,
                                           @RequestParam int page,
                                           @RequestParam int size){

@@ -16,8 +16,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/company")
-@PreAuthorize("hasAuthority('MANAGER')")
-@Tag(name = "company api",description = "MANAGER can create ")
+@PreAuthorize("hasAuthority('ADMIN')")
+@Tag(name = "company api",description = "ADMIN can create ")
 public class CompanyController {
     private final CompanyService service;
 
@@ -27,7 +27,6 @@ public class CompanyController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(description = "ADMIN can get by id")
     public CompanyResponse getById(@PathVariable Long id) {
         return service.getById(id);
@@ -58,7 +57,7 @@ public class CompanyController {
     }
 
     @GetMapping("/all")
-    public List<Company> findAll(){
+    public List<CompanyResponse> findAll(){
         return service.getAllCompanies();
     }
 }

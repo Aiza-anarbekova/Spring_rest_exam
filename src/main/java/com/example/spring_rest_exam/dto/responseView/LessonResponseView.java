@@ -14,4 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 public class LessonResponseView {
     private List<LessonResponse> responseList;
+    private int currentPage;
+    private int totalPage;
 }

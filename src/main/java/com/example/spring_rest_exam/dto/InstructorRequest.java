@@ -1,5 +1,6 @@
 package com.example.spring_rest_exam.dto;
 
+import com.example.spring_rest_exam.model.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ public class InstructorRequest {
     private String lastName;
     private String phoneNumber;
     private String email;
+    private String password;
     private String specialization;
     private Long companyId;
 }

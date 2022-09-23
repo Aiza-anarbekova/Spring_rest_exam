@@ -63,10 +63,6 @@ public class TaskService {
 
     }
 
-    public List<Task> getTaskByLessonId(Long id) {
-        return taskRepository.
-                findTaskByLessonId(id);
-    }
 
     public TaskResponse updateTask(Long id, TaskRequest request) {
         Task task = taskRepository.findById(id).orElseThrow(
@@ -84,7 +80,9 @@ public class TaskService {
     }
 
     public TaskResponse deleteTask(Long id) {
-        Task task = taskRepository.findTaskById(id);
+        Task task = taskRepository.findById(id).orElseThrow(
+                ()->new NotFoundException(String.format("task with id - %s not found",id))
+        );
         task.setLesson(null);
         taskRepository.delete(task);
         return mapToResponse(task);

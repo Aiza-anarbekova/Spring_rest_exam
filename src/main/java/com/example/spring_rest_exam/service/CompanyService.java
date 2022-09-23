@@ -7,6 +7,7 @@ import com.example.spring_rest_exam.exception.NotFoundException;
 import com.example.spring_rest_exam.model.Company;
 import com.example.spring_rest_exam.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,12 @@ public class CompanyService {
                 .build();
     }
 
-    public List<Company> getAllCompanies() {
-        return repository.findAll();
+    public List<CompanyResponse> getAllCompanies() {
+        List<CompanyResponse>responses = new ArrayList<>();
+        for (Company company:repository.findAll()){
+            responses.add(mapToResponse(company));
+        }
+        return responses;
     }
 
 
@@ -101,6 +106,9 @@ public class CompanyService {
     public CompanyResponseView pagination(String text, int size, int page) {
         CompanyResponseView companyResponseViews = new CompanyResponseView();
         Pageable pageable = PageRequest.of(page - 1, size);
+        Page<Company> companies = repository.findAll(pageable);
+        companyResponseViews.setCurrentPage(pageable.getPageNumber()+1);
+        companyResponseViews.setTotalPage(companies.getTotalPages());
         companyResponseViews.setCompanyResponseList(getAll(search(text, pageable)));
         return companyResponseViews;
 

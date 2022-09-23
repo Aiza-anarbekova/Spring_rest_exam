@@ -14,4 +14,6 @@ import java.util.List;
 @Setter
 public class CompanyResponseView {
     private List<CompanyResponse> companyResponseList;
+    private int currentPage;
+    private int totalPage;
 }

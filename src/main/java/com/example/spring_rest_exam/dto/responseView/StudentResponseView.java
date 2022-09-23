@@ -14,4 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentResponseView {
     private List<StudentResponse> responses;
+    private int currentPage;
+    private int totalPage;
 }

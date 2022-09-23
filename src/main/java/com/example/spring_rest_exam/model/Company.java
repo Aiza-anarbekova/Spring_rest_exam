@@ -19,8 +19,10 @@ public class Company {
     @GeneratedValue(generator = "company_seq", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "company_seq",sequenceName = "company_seq", allocationSize = 1)
     private Long id;
+
     @Column(name = "company_name")
     private String companyName;
+
     @Column(name = "located_country")
     private String locatedCountry;
 

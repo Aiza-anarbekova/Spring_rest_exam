@@ -21,14 +21,19 @@ public class Course {
     @GeneratedValue(generator = "course_gen", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "course_gen", sequenceName = "course_seq", allocationSize = 1)
     private Long id;
+
     @Column(name = "course_name")
     private String name;
+
     @Column(name = "date_of_start")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dateOfStart;
+
     private String duration;
+
     @Column(length = 10000)
     private String image;
+
     private String description;
 
     @JsonIgnore
@@ -41,10 +46,8 @@ public class Course {
     public void addInstructor(Instructor instructor1) {
         if (instructors == null) {
             instructors = new ArrayList<>();
-        } else {
-
-            this.instructors.add(instructor1);
         }
+            this.instructors.add(instructor1);
     }
 
     @JsonIgnore

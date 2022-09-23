@@ -18,18 +18,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/task")
-@PreAuthorize("hasAuthority('ADMIN')")
+@PreAuthorize("hasAuthority('INSTUCTOR')")
 public class TaskController {
     private final TaskService taskService;
-    private final VideoService videoService;
-
     @Autowired
-    public TaskController(TaskService taskRepository,
-                          VideoService videoRepository) {
+    public TaskController(TaskService taskRepository) {
         this.taskService = taskRepository;
-        this.videoService = videoRepository;
-    }
 
+    }
 
     @PostMapping
     public TaskResponse save(@RequestBody TaskRequest request){
@@ -55,6 +51,7 @@ public class TaskController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('STUDENT','INSTRUCTOR')")
     public TaskResponseView pagination(@RequestParam(name = "text",required = false) String text,
                                        @RequestParam int page,
                                        @RequestParam int size){

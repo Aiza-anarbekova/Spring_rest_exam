@@ -1,17 +1,16 @@
 package com.example.spring_rest_exam.dto.response;
 
 import com.example.spring_rest_exam.StudyFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Enumerated;
+import java.util.List;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class StudentResponse {
     private Long id;
     private String firstName;
@@ -20,4 +19,6 @@ public class StudentResponse {
     private String email;
     @Enumerated
     private StudyFormat studyFormat;
+
+
 }

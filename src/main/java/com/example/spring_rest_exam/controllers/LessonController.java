@@ -10,10 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("api/lesson")
-@PreAuthorize("hasAuthority('ADMIN')")
+@PreAuthorize("hasAuthority('INSTRUCTOR')")
 public class LessonController {
     private final LessonService lessonService;
 
@@ -32,6 +34,12 @@ public class LessonController {
         return lessonService.getById(id);
     }
 
+    @GetMapping("/all")
+    @PreAuthorize("hasAnyAuthority('STUDENT','INSTRUCTOR')")
+    public List<LessonResponse> getAll(){
+        return lessonService.getAll();
+    }
+
 
     @PutMapping("/{id}")
     public LessonResponse updateLesson(@PathVariable Long id , @RequestBody LessonRequest request){
@@ -44,6 +52,7 @@ public class LessonController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('INSTRUCTOR','STUDENT')")
     public LessonResponseView pagination(@RequestParam (name = "text") String text,
                                          @RequestParam int page,
                                          @RequestParam int size){

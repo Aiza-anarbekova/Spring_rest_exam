@@ -58,9 +58,13 @@ public class LessonService {
         return mapToResponse(lesson);
     }
 
-    public List<Lesson> getLessonByCourseId(Long id) {
-        return lessonRepository.findLessonByCourseId(id);
-    }
+ public List<LessonResponse> getAll(){
+        List<LessonResponse > responses = new ArrayList<>();
+     for (Lesson l:lessonRepository.findAll()) {
+         responses.add(mapToResponse(l));
+     }
+     return responses;
+ }
 
     public LessonResponse updateLesson(Long id, LessonRequest lesson) {
         Lesson lesson1 = lessonRepository.findById(id).orElseThrow(

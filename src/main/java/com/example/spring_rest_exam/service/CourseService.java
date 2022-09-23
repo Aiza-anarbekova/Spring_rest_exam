@@ -41,7 +41,7 @@ public class CourseService {
     public Course mapToEntity(CourseRequest request) {
         Course course = new Course();
         Company company = companyRepository.findById(request.getCompanyId()).orElseThrow(
-                () -> new NotFoundException(String.format("course with id - %s not found!"
+                () -> new NotFoundException(String.format("company with id - %s not found!"
                         , request.getCompanyId())));
         course.setName(request.getName());
         course.setDescription(request.getDescription());
@@ -61,8 +61,12 @@ public class CourseService {
                 .build();
     }
 
-    public List<Course> getCourseByCompanyId(Long id) {
-       return courseRepository.findCourseByCompanyId(id);
+    public List<CourseResponse> getCourseByCompanyId(Long id) {
+       List<CourseResponse > responses = new ArrayList<>();
+        for (Course course:courseRepository.findCourseByCompanyId(id)) {
+            responses.add(mapToResponse(course));
+        }
+        return responses;
 
     }
 
@@ -137,5 +141,6 @@ public class CourseService {
         courseResponseView.setResponses(getAll(search(text,pageable)));
         return courseResponseView;
     }
+
 
 }
